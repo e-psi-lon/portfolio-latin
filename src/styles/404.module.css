@@ -1,0 +1,35 @@
+.title_error {
+    text-align: center;
+    font-size: 542%;
+    color: #FFFFFF;
+}
+
+.subtitle_error {
+    text-align: center;
+    font-size: 200%;
+    color: #FFFFFF;
+}
+
+.button_go_back {
+    font-size: 1.5rem;
+    color: #000000;
+    text-decoration: none;
+    border: 1px solid #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    /*La transition dure 0.3s pour le hover et 0.1s pour le active*/
+    transition: 0.3s ease-in-out 0.1s;
+}
+
+.button_go_back:hover {
+    color: #888888;
+}
+
+.button_go_back:active {
+    background: #000000;
+    color: #ffffff;
+}
+
+.center {
+    text-align: center;
+}
