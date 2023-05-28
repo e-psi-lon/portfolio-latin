@@ -1,0 +1,1 @@
+export {default as Sequence2} from './Sequence2';
