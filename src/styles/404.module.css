@@ -17,7 +17,6 @@
     border: 1px solid #ffffff;
     padding: 0.5rem 1rem;
     border-radius: 5px;
-    /*La transition dure 0.3s pour le hover et 0.1s pour le active*/
     transition: 0.3s ease-in-out 0.1s;
 }
 

@@ -1,9 +1,16 @@
+
 .title {
 	text-align: center;
 	font-size: 542%;
 	color: #FF0000;
-	text-decoration: underline;
-    
+	text-decoration: underline;   
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 300%;
+    color: #FF0000;
+    text-decoration: underline;
 }
 
 .nav > .li {
@@ -87,3 +94,5 @@
 .github {
     padding-left: 2rem;
 }
+
+
