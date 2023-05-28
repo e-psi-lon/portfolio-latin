@@ -26,7 +26,7 @@ const MotConcept = () => {
             <div className={styles.content}>
                 <Header />
                 <main>
-
+                    
                 </main>
             </div>
             <Footer />
