@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "../styles/index.module.css";
 import { useRouter } from "next/router";
-import $ from "jquery";
 
 const navbar = [
     {
@@ -25,24 +24,6 @@ const navbar = [
 
 const Header = () => {
     const router = useRouter();
-    useEffect(() => {
-        const handleScroll = () => {
-          const header = $('.header');
-          const headerHeight = header.outerHeight();
-          const scrollPosition = $(window).scrollTop();
-    
-          if (scrollPosition > headerHeight) {
-            header.addClass('fixed');
-          } else {
-            header.removeClass('fixed');
-          }
-        };
-    
-        $(window).scroll(handleScroll);
-        return () => {
-          $(window).off('scroll', handleScroll);
-        };
-      }, []);
     const page = (
         <>
             <h1 className={styles.title}>Portfolio</h1>
