@@ -5,3 +5,45 @@
     background-color: #48465D;
     border: 0
 }
+
+.go_back:hover, .go_back:active, .go_back:focus {
+    color: #FFFFFF;
+    background-color: #48465D;
+    outline: none;
+}
+
+.a:visited {
+    color: #FFFFFF;
+}
+
+.a:hover {
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+
+.go_back_link {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.go_back_link:hover {
+    color: #8C8C8C;
+}
+
+.go_back_link:active {
+    color: #7F7F7F;
+}
+
+.title {
+    text-align: center;
+    font-size: 542%;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 300%;
+}
+
+.p {
+    font-size: 192%;
+}

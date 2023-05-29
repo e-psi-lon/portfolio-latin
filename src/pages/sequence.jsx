@@ -10,35 +10,7 @@ import * as Premiere from "../components/docs/premiere";
 
 const pathToComponent = {
     base: {
-        id: "base",
-        component: (
-            <>
-                <Header />
-                <main>
-                    <h1>Travaux de Séquence</h1>
-                    <ul>
-                        <li>
-                            <ul>
-                                <li><a href="/sequence?niveau=seconde#1">Travail de Séquence 1 (seconde)</a></li>
-                                <li><a href="/sequence?niveau=seconde#2">Travail de Séquence 2 (seconde)</a></li>
-                                <li><a href="/sequence?niveau=seconde#3">Travail de Séquence 3 (seconde)</a></li>
-                                <li><a href="/sequence?niveau=seconde#4">Travail de Séquence 4 (seconde)</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <ul>
-                                <li><a href="/sequence?niveau=premiere#1">Travail de Séquence 1 (première)</a></li>
-                                <li><a href="/sequence?niveau=premiere#2">Travail de Séquence 2 (première)</a></li>
-                                <li><a href="/sequence?niveau=premiere#3">Travail de Séquence 3 (première)</a></li>
-                                <li><a href="/sequence?niveau=premiere#4">Travail de Séquence 4 (première)</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                </main>
-                <Footer />
-            </>
-        )
+        id: "base"
     },
     seconde: {
         id: "seconde",
@@ -49,15 +21,15 @@ const pathToComponent = {
             },
             {
                 name: "Travail de Séquence 2 (seconde)",
-                component: <Seconde.Sequence1 />
+                component: <Seconde.Sequence2 />
             },
             {
                 name: "Travail de Séquence 3 (seconde)",
-                component: <Seconde.Sequence1 />
+                component: <Seconde.Sequence3 />
             },
             {
                 name: "Travail de Séquence 4 (seconde)",
-                component: <Seconde.Sequence1 />
+                component: <Seconde.Sequence4 />
             }
         ]
     },
@@ -85,7 +57,7 @@ const Sequence = () => {
     const router = useRouter();
     let niveau = router.query.niveau
     let sequence = router.asPath.split("#")[1];
-    if (niveau == undefined || niveau == "" || niveau == null || sequence == undefined || sequence == "" || sequence == null) {
+    if (niveau == undefined || niveau == "" || niveau == null || sequence == undefined || sequence == "" || sequence == null || !["seconde", "premiere", "terminale"].includes(niveau) || isNaN(sequence) || sequence < 1 || sequence > 4) {
         return (
             <>
                 <Head>
@@ -106,7 +78,28 @@ const Sequence = () => {
                         `}</style>
                 </Head>
                 <div className={styles.content}>
-                    {pathToComponent["base"]["component"]}
+                    <Header />
+                    <main>
+                        <h1>Travaux de Séquence</h1>
+                        {Object.values(pathToComponent).filter((niveau) => niveau["id"] != "base").map((niveau, index1) => {
+                            return (
+                                <ul>
+                                    <li key={index1}>
+                                        <h2>{niveau["id"].charAt(0).toUpperCase() + niveau["id"].slice(1)}</h2>
+                                        <ul>
+                                            {niveau["sequences"].map((sequence, index2) => {
+                                                return (
+                                                    <li key={index2}>
+                                                        <a className={styles.a} href={"/sequence?niveau=" + niveau["id"] + "#" + (niveau["sequences"].indexOf(sequence)+1)}>{sequence["name"]}</a>
+                                                    </li>
+                                                )
+                                            })}
+                                        </ul>
+                                    </li>
+                                </ul>
+                            )
+                        })}
+                    </main>
                 </div>
                 <Footer />
             </>
