@@ -36,7 +36,7 @@ const Header = () => {
                             );
                         } else {
                             return (
-                                <li className={styles.li} key={index}><a className={styles.a} href={item.link}>{item.name}</a></li>
+                                <li className={styles.li} key={index}><a className={styles.a} onClick={() => router.push(item.link)}>{item.name}</a></li>
                             );
                         }
                     })}

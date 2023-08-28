@@ -24,6 +24,7 @@
 .a:hover {
     color: #FFFFFF;
     text-decoration: underline;
+    cursor: grab;
 }
 
 .go_back_link {

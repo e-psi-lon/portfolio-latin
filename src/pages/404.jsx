@@ -2,8 +2,10 @@ import React from "react";
 import Head from "next/head";
 import styles from "../styles/404.module.css";
 import { Footer } from "../components/";
+import { useRouter } from "next/router";
 
 const Page404 = () => {
+    const rooter = useRouter();
     return (
         <>
             <Head>
@@ -27,7 +29,7 @@ const Page404 = () => {
                 <h1 className={styles.title_error}>404</h1>
                 <p className={styles.subtitle_error}>Cette page n'existe pas</p>
                 <div className={styles.center}>
-                    <button onClick={() => window.history.back()} className={styles.button_go_back}>Revenir en lieu sûr</button>
+                    <button onClick={() => rooter.push("/")} className={styles.button_go_back}>Revenir en lieu sûr</button>
                 </div>
             </div>
             <Footer />

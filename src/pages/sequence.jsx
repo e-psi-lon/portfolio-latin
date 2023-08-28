@@ -90,7 +90,7 @@ const Sequence = () => {
                                             {niveau["sequences"].map((sequence, index2) => {
                                                 return (
                                                     <li key={index2}>
-                                                        <a className={styles.a} href={"/sequence?niveau=" + niveau["id"] + "#" + (niveau["sequences"].indexOf(sequence)+1)}>{sequence["name"]}</a>
+                                                        <a className={styles.a} href={`/sequence?niveau=${niveau["id"]}&sequence=${index2+1}`}>{sequence["name"]}</a>
                                                     </li>
                                                 )
                                             })}
