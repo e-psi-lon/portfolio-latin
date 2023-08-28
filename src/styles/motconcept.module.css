@@ -1,0 +1,85 @@
+.p {
+	font-size:192%;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 300%;
+}
+
+.niveau > .li > .classe {
+    margin: 0% 1.5% 4% 1.5%;
+	padding: 10% 8%;
+    font-size:150%;
+	border-style: solid;
+	border-color:#606060;
+	background-color: #303030;
+	border-radius: 10px;
+	text-decoration: none;
+    color: #FFFFFF;
+    transition: 0.3s ease-in-out 0.1s;
+}
+
+.niveau > .li {
+    list-style: none;
+    text-align: center;
+    display: inline-block;
+    margin: 0% 1.5% 4% 1.5%;
+	padding: 0.8% 1% 0.8% 1%;
+
+}
+
+
+.niveau {
+	text-align: center;
+}
+
+
+.niveau > .li > .classe:hover {
+	background-color: #808080;
+	cursor:pointer;
+}
+
+.classe_list {
+	text-align: center;
+	font-size: 300%;
+}
+
+
+
+.mot {
+	color:#FF0000;
+	text-decoration: underline;
+	text-decoration-color: #FFFFFF;
+}
+
+.sequence {
+	text-align: center;
+
+}
+
+.motconcept_word {
+	text-indent: -1em;
+	padding-left: 1em;
+}
+
+.motconcept_sequence > * {
+	display: block;
+	list-style: none;
+	margin: 0% 1.5% 4% 1.5%;
+	padding: 0.8% 1% 0.8% 1%;
+	font-size:200%;
+	border-style: solid;
+	border-radius: 20px;
+	text-decoration: none;
+}
+
+.motconcept_sequence > .sequence {
+	margin: 5%;
+}
+
+.mot {
+	color:#FF0000;
+	text-decoration: underline;
+	text-decoration-color: #FFFFFF;
+}

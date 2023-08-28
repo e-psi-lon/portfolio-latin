@@ -9,7 +9,7 @@ const navbar = [
     },
     {
         name: "Mots Concepts",
-        link: "/mot_concept"
+        link: "/mot-concept"
     },
     {
         name: "Travaux de Séquence (ne pas cliquer)",
