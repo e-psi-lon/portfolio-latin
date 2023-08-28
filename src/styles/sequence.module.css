@@ -16,6 +16,11 @@
     color: #FFFFFF;
 }
 
+.a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
 .a:hover {
     color: #FFFFFF;
     text-decoration: underline;

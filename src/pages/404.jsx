@@ -27,7 +27,7 @@ const Page404 = () => {
                 <h1 className={styles.title_error}>404</h1>
                 <p className={styles.subtitle_error}>Cette page n'existe pas</p>
                 <div className={styles.center}>
-                    <button onClick={() => window.href.location = "/"} className={styles.button_go_back}>Revenir en lieu sûr</button>
+                    <button onClick={() => window.history.back()} className={styles.button_go_back}>Revenir en lieu sûr</button>
                 </div>
             </div>
             <Footer />
