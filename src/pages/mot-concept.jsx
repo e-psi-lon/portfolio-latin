@@ -2,124 +2,46 @@ import React, { useState } from "react";
 import Head from "next/head";
 import { Header, Footer } from "../components";
 import styles from "../styles/motconcept.module.css";
+let words = require("@/data/words.json");
 
+const renderDefinition = (definition) => {
+    return definition.map((item, index) => {
+        // on split le type a chaque - pour pouvoir le traiter
+        const text_type = item["type"].split("-");
+        // Pour chaque type on ajoute l'element html correspondant, en ajoutant au 
+        let content = item["content"];
+        for (let i = 0; i < text_type.length; i++) {
+            switch (text_type[i]) {
+                case "italic":
+                    content = <i>{content}</i>;
+                    break;
+                case "bold":
+                    content = <b>{content}</b>;
+                    break;
+                case "underline":
+                    content = <u>{content}</u>;
+                    break;
+                case "sup":
+                    content = <sup>{content}</sup>;
+                    break;
+                case "sub":
+                    content = <sub>{content}</sub>;
+                    break;
+                default:
+                    break;
+            }
+        };
+        // On retourne ensuite l'element html complet
+        return <span key={index}>{content}</span>;
+    });
+};
 
-const pathToComponent = {
-    seconde: {
-        id: "Seconde",
-        sequences: [
-            {
-                id: "Sequence 1 : L'Homme et L'Animal",
-                words: [
-                    {
-                        word: "Animal, Animalis, n.",
-                        definition: <>
-                            Désigne d’abord tout être vivant, doué de souffle (<b><i>anima, ae, f</i></b>), et donc aussi bien les hommes que les bêtes, par opposition aux être inanimés. Dans un sens plus restreint et péjoratif ce mot sert pour nommer les bêtes.
-                        </>
-                    },
-                    {
-                        word: "Homo, Hominis, m.",
-                        definition: <>
-                            Caractérise les humains par rapport aux animaux. Homo signifie donc être humain tandis que vir désigne l’homme par rapport à la femme.
-                        </>
-                    }
-                ]
-            },
-            {
-                id: "Sequence 2 : L'Homme et le Divin",
-                words: [
-                ]
-            }
-        ]
-    },
-    premiere: {
-        id: "Premiere",
-        sequences: [
-            {
-                id: "Sequence 1 : La parole et les dérives",
-                words: [
-                    {
-                        word: "Res Publica, f.",
-                        definition: <>
-                            La chose publique, c'est-à-dire du peuple. Désigne traditionellement la période de l'histoire romaine comprise entre la fin de la monarchie et le début de l'Empire (501-27 avant J.-C.). Sa devise, <b><i>Senatus PopulusQue Romanus</i></b>, représente l'ensemble du peuple romain.
-                        </>
-                    },
-                    {
-                        word: "Civitas, aris, f.",
-                        definition: <>
-                            La cité. Mot dérivé de <b><i>civis, is, m.</i></b>, le citoyen. Désigne l'ensemble des citoyens, la cité au sens d'unité politique par opposition à <b><i>urbes, urbis, f.</i></b>, la ville. Désigne aussi la qualité de citoyen et notamment le droit de cité.
-                        </>
-                    },
-                    {
-                        word: "Heros, Herois, m.",
-                        definition:<>
-                            (reprise du grec ἥρως) Être humain remarquable soit parce que progéniture d'un dieu soit parce qu'il a accompli des exploits ; également personnage d'une épopée ou fondateur d'une ville.
-                        </>
-                    }
-                ]
-            },
-            {
-                id: "Sequence 2 : La religion domestique",
-                words: [
-                    {
-                        word: "Numen, inis, n.",
-                        definition: <>
-                            L'acquiescement, la volonté, l'ordre puis la puissance divine, la divinité (sens plus absolu que <b><i>deus, i, m.</i></b>).
-                        </>
-                    },
-                    {
-                        word: "Religio, onis, f.",
-                        definition: <>
-                            Le scrupule, la crainte pieuse, la croyance, le culte, le respect sacré (sens plus ouvert qu'en français).
-                        </>
-                    }
-                ]
-            },
-            {
-                id: "Sequence 3 : Amour, amants, amantes",
-                words: [
-                    {
-                        word: "Ardor, oris, m.",
-                        definition: <>
-                            Le feu, l'embrasement. Désigne par métaphore, les sentiments amoureux qui brûlent les corps et les âmes. On le traduit par l'ardeur, la passion. Le verbe <b><i>ardeo, es, ere</i></b> (brûler, être ardent) possède le même double sens, physique et figuré.
-                        </>
-                    }
-                ]
-            },
-            {
-                id: "Séquence 4 : Oublié (à compléter)",
-                words: [
-                    {
-                        word: "",
-                        definition: <>
-                            Rien ici pour le moment
-                        </>
-                    }
-                ]
-            }
-        ]
-    },
-    terminale: {
-        id: "Terminale",
-        sequences: [
-            {
-                id: "sequence1",
-                words: [
-                    {
-                        word: "mot1",
-                        definition: <>
-                            definition1
-                        </>
-                    }
-                ]
-            }
-        ]
-    },
-}
 
 
 
 const MotConcept = () => {
+    // On actualise words au passage
+    words = require("@/data/words.json");
     const [content, setContent] = useState(
         <>
             <p className={styles.p}>
@@ -128,12 +50,13 @@ const MotConcept = () => {
         </>
     );
     const changeContent = (niveau) => {
+        
         const newContent = (
             <>
-                <p className={styles.classe_list}>{pathToComponent[niveau].id}</p>
+                <p className={styles.classe_list}>{words[niveau].id}</p>
                 <ul className={styles.motconcept_sequence}>
                         {
-                            pathToComponent[niveau].sequences.map((sequence, index) => {
+                            words[niveau].sequences.map((sequence, index) => {
                                 return (
                                     <li key={index}>
                                         <div className={styles.spacer}></div>
@@ -144,7 +67,7 @@ const MotConcept = () => {
                                                     return (
                                                         <>
                                                             <li key={index} className={styles.motconcept_word}>
-                                                                <span className={styles.mot}>{word["word"]}</span> : {word["definition"]}
+                                                                <span className={styles.mot}>{word["word"]}</span> : {renderDefinition(word["definition"])}
                                                             </li>
                                                             <br/>
                                                         </>

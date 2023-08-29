@@ -1,0 +1,21 @@
+.title {
+	text-align: center;
+	font-size: 542%;
+	color: #FF0000;
+	text-decoration: underline;   
+}
+
+
+.dialog {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 80%;
+	height: 80%;
+	background-color: white;
+	z-index: 100;
+	overflow: auto;
+	padding: 16px;
+	border-radius: 10px;
+}

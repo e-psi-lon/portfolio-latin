@@ -1,10 +1,10 @@
 import React from "react";
 import Head from "next/head";
-import styles from "../styles/sequence.module.css";
+import styles from "@/src/styles/sequence.module.css";
 import { Header, Footer } from "../components";
 import { useRouter } from 'next/router';
-import * as Seconde from "../components/docs/seconde";
-import * as Premiere from "../components/docs/premiere";
+import * as Seconde from "@/src/components/docs/seconde";
+import * as Premiere from "@/src/components/docs/premiere";
 
 
 
