@@ -13,7 +13,7 @@ const navbar = [
     },
     {
         name: "Travaux de Séquence (ne pas cliquer)",
-        link: "/int_sequence"
+        link: "/int-sequence"
     },
     {
         name: "Travaux de Fin de Séquence",

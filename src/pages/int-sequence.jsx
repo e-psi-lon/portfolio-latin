@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import { Header, Footer } from "../components/";
+import { Header, Footer } from "../components";
 import styles from "../styles/index.module.css";
 
 const IntSequence = () => {
