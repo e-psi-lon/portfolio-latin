@@ -3,40 +3,13 @@ import Head from "next/head";
 import { Header, Footer } from "../components";
 import styles from "../styles/motconcept.module.css";
 let words = require("@/data/words.json");
+import MarkdownRenderer from "../components/markdownRenderer";
 
 const renderDefinition = (definition) => {
-    return definition.map((item, index) => {
-        // on split le type a chaque - pour pouvoir le traiter
-        const text_type = item["type"].split("-");
-        // Pour chaque type on ajoute l'element html correspondant, en ajoutant au 
-        let content = item["content"];
-        for (let i = 0; i < text_type.length; i++) {
-            switch (text_type[i]) {
-                case "italic":
-                    content = <i>{content}</i>;
-                    break;
-                case "bold":
-                    content = <b>{content}</b>;
-                    break;
-                case "underline":
-                    content = <u>{content}</u>;
-                    break;
-                case "sup":
-                    content = <sup>{content}</sup>;
-                    break;
-                case "sub":
-                    content = <sub>{content}</sub>;
-                    break;
-                default:
-                    break;
-            }
-        };
-        // On retourne ensuite l'element html complet
-        return <span key={index}>{content}</span>;
-    });
-};
-
-
+    return (
+        <MarkdownRenderer toRender={definition} />
+    )
+}
 
 
 const MotConcept = () => {

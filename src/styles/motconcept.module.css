@@ -83,3 +83,27 @@
 	text-decoration: underline;
 	text-decoration-color: #FFFFFF;
 }
+
+.i {
+	font-style: italic;
+}
+
+.b {
+	font-weight: bold;
+}
+
+.u {
+	text-decoration: underline;
+}
+
+.s {
+	text-decoration: line-through;
+}
+
+.sup {
+	vertical-align: super;
+}
+
+.sub {
+	vertical-align: sub;
+}
