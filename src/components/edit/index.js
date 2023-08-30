@@ -1,2 +1,2 @@
-export {default as Words} from './Words';
-export {default as Works} from './Works';
+export {default as Words} from './words';
+export {default as Works} from './works';
