@@ -5,4 +5,38 @@
 	text-decoration: underline;   
 }
 
+.actions {
+	display: flex;
+	margin-bottom: 1rem;
+	list-style: none;
+	padding: 0;
+	margin: 0 3%;
+	text-align: center;
+}
 
+.action {
+	flex: 1;
+	margin: 0 3%;
+}
+
+.actionButton {
+	width: 100%;
+	background-color: #48465D;
+	color: #fff;
+	border: none;
+	padding: 0.5rem 1rem;
+	font-size: 1.2rem;
+	cursor: grab;
+	border-radius: 0.5rem;
+}
+
+.actionButton:hover {
+	text-decoration: underline;
+}
+
+.adminChoices {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	list-style: none;
+}

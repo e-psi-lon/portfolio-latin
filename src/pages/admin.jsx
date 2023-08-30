@@ -5,18 +5,6 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import * as edit from "@/src/components/edit";
 
-const pathToComponent = {
-    words: {
-        id: "words",
-        component: <edit.Words />
-    },
-    works: {
-        id: "works",
-        component: <edit.Works />
-    }
-}
-
-
 const checkToken = async (token) => {
     try {
         const response = await axios.post("/api/checkToken", { token });
@@ -62,24 +50,17 @@ const Admin = () => {
                 <>
                     <h1 className={styles.title}>Admin</h1>
                     <ul className={styles.actions}>
-                        <li className={styles.action}
-                            onClick={() => setContent(pathToComponent.words.component)}>
-                            Mots
+                        <li className={styles.action}>
+                            <button onClick={() => setContent(<edit.Words/>)} className={styles.actionButton}>Mots</button>
                         </li>
-                        <li className={styles.action}
-                            onClick={() => setContent(pathToComponent.works.component)}>
-                            Travaux
+                        <li className={styles.action}>
+                            <button onClick={() => setContent(<edit.Works/>)} className={styles.actionButton}>Travaux</button>
                         </li>
-                        <li className={styles.action}
-                            onClick={() => router.push("/")}>
-                            Retour
+                        <li className={styles.action}>
+                            <button onClick={() => router.push("/")} className={styles.actionButton}>Retour au site</button>
                         </li>
-                        <li className={styles.action}
-                            onClick={() => {
-                                localStorage.removeItem("token");
-                                router.push("/connect");
-                            }}>
-                            Déconnexion
+                        <li className={styles.action}>
+                            <button onClick={() => {localStorage.removeItem("token"); router.push("/connect");}} className={styles.actionButton}>Déconnexion</button>
                         </li>
                     </ul>
                 </>
