@@ -21,7 +21,7 @@ const CreateWord = ({ dialogFunc }) => {
             return;
         }
         try {
-            response = await axios.post("/api/createWord", { word: word, classe: classe, sequence: sequence, definition: definition });
+            response = await axios.post("/api/create/word", { word: word, classe: classe, sequence: sequence, definition: definition });
             if (response.status !== 200) {
                 throw new Error("Erreur lors de la création du mot");
             }
@@ -58,9 +58,9 @@ const CreateWord = ({ dialogFunc }) => {
                         <label className={styles.dialogTextLabel} htmlFor="word">Mot</label>
                         <input type="text" className={styles.dialogTextInput} id="word" name="word" onChange={(event) => setWord(event.target.value)} placeholder="Mot à ajouter" value={word} />
                     </div>
-                    <div className={styles.dialogTextContainer}>
-                        <label className={styles.dialogTextLabel} htmlFor="definition">Définition (styles supportés : **<b>gras</b>**, _<i>italique</i>_, ~~<s>barré</s>~~, --<u>souligné</u>--, +<sup>exposant</sup>+, -<sub>indice</sub>-)</label>
-                        <textarea className={styles.dialogTextInput} onChange={(event) => {setDefinition(event.target.value)}} id="definition" name="definition" placeholder="Définition du mot" value={definition} />
+                    <div className={styles.dialogTextAreaContainer}>
+                        <label className={styles.dialogTextAreaLabel} htmlFor="definition">Définition (styles supportés : **<b>gras</b>**, _<i>italique</i>_, ~~<s>barré</s>~~, --<u>souligné</u>--, +<sup>exposant</sup>+, -<sub>indice</sub>-)</label>
+                        <textarea className={styles.dialogTextAeraInput} onChange={(event) => {setDefinition(event.target.value)}} id="definition" name="definition" placeholder="Définition du mot" value={definition} />
                         <div className={styles.dialogTextPreviewContainer}>
                             <MarkdownRenderer toRender={definition} />
                         </div>

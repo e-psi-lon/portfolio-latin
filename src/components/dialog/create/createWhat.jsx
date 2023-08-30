@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import dialogStyles from "@/src/styles/dialog.module.css";
+import styles from "@/src/styles/dialog.module.css";
 
 const CreateWhat = ({ onClose }) => {
     const [selectedOption, setSelectedOption] = useState("mot");
@@ -14,34 +14,36 @@ const CreateWhat = ({ onClose }) => {
 
     
     return (
-        <div className={dialogStyles.dialogContainer}>
-            <div className={dialogStyles.dialogBox}>
-                <h3 className={dialogStyles.dialogTitle}>Que voulez-vous créer ?</h3>
-                <label className={dialogStyles.dialogRadioLabel}>
+        <div className={styles.dialogContainer}>
+            <div className={styles.dialogBox}>
+                <h3 className={styles.dialogTitle}>Que voulez-vous créer ?</h3>
+                <label className={styles.dialogRadioLabel}>
                     <input
                         type="radio"
                         value="mot"
-                        className={dialogStyles.dialogRadioInput}
+                        className={styles.dialogRadioInput}
                         checked={selectedOption === "mot"}
                         onChange={handleOptionChange}
                     />
                     Créer un mot
                 </label>
-                <label className={dialogStyles.dialogRadioLabel}>
+                <label className={styles.dialogRadioLabel}>
                     <input
                         type="radio"
                         value="sequence"
-                        className={dialogStyles.dialogRadioInput}
+                        className={styles.dialogRadioInput}
                         checked={selectedOption === "sequence"}
                         onChange={handleOptionChange}
                     />
                     Créer une séquence
                 </label>
-                <div className={dialogStyles.dialogButtonContainer}>
-                    <button onClick={handleConfirm}>Confirmer</button>
-                </div>
-                <div className={dialogStyles.dialogButtonContainer}>
-                    <button onClick={() => onClose(null)}>Annuler</button>
+                <div className={styles.dialogValidationContainer}>
+                    <div className={styles.dialogButtonContainer}>
+                        <button onClick={handleConfirm}>Confirmer</button>
+                    </div>
+                    <div className={styles.dialogButtonContainer}>
+                        <button onClick={() => onClose(null)}>Annuler</button>
+                    </div>
                 </div>
             </div>
         </div>

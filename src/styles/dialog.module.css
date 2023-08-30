@@ -86,28 +86,30 @@
     margin-top: 20px;
 }
 
-.i {
-	font-style: italic;
+.dialogTextAreaContainer {
+    margin-bottom: 10px;
 }
 
-.b {
-	font-weight: bold;
+.dialogTextAreaLabel {
+    display: block;
+    margin-bottom: 8px;
 }
 
-.u {
-	text-decoration: underline;
+.dialogTextAreaInput {
+    width: 100%;
+    margin-bottom: 10px;
+    resize: none;
+    height: 100px;
+
 }
 
-.s {
-	text-decoration: line-through;
-}
-
-.sup {
-	vertical-align: super;
-}
-
-.sub {
-	vertical-align: sub;
+.dialogTextPreviewContainer {
+    margin-bottom: 10px;
+    font-size: 80%;
+    width: 100%;
+    overflow: wrap;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .placeholder {

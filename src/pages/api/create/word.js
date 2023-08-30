@@ -22,15 +22,11 @@ export default function handler(req, res) {
             return;
         }
         const storedWords = require("@/data/words.json");
-        console.log(sequence);
         const sequenceIndex = storedWords[classe].sequences.findIndex((element) => element.id === sequence);
-        console.log(storedWords[classe].sequences);
         const newWord = {
             word: word,
             definition: definition,
         }
-        console.log(sequenceIndex);
-        console.log(storedWords[classe].sequences[sequenceIndex]);
         storedWords[classe].sequences[sequenceIndex].words.push(newWord);
         // On update le fichier
         const fs = require('fs');
