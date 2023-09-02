@@ -1,5 +1,4 @@
 import { createHash } from 'crypto';
-import config from '@/config.js';
 import jwt from 'jsonwebtoken';
 import { sql } from '@vercel/postgres'
 
