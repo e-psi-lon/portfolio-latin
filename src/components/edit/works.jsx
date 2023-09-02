@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import styles from "@/src/styles/admin.module.css";
-import CreateWhat from "@/src/components/dialog/create";
-
-
-// words est un objet qui contient des clés qui sont les noms des classes de mots (seconde, premiere, terminale),
-// Les valeurs de ces clés sont primo un id (seconde, premiere, terminale) et secundo un tableau de séquences
-// Chaque séquence est un objet qui contient un id (Sequence 1 : <titre de la séquence>) et un tableau de mots
-// Chaque mot est un objet qui contient un mot (Animal, Animalis, n.) et une définition et cette definition est une liste d'objets
-// Chaque objet contient un type (text, italic, bold) et un texte (le texte à afficher)
+import * as create from "@/src/components/dialog/create";
 
 const Works = () => {
     const [dialog, setDialog] = useState(null);
@@ -16,7 +9,7 @@ const Works = () => {
             <div id="createWhat" className={styles.dialog}>
                 {dialog}
                 <ul>
-                    <li><button onClick={() => setDialog(<CreateWhat />)}>Création</button></li>
+                    <li><button onClick={() => setDialog(<create.CreateWhat />)}>Création</button></li>
 
                 </ul>
             </div>

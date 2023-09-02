@@ -37,4 +37,4 @@ const Page500 = () => {
     );
 }
 
-export default Page404;
+export default Page505;
