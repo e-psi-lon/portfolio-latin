@@ -51,10 +51,10 @@ const Admin = () => {
                     <h1 className={styles.title}>Admin</h1>
                     <ul className={styles.actions}>
                         <li className={styles.action}>
-                            <button onClick={() => setContent(<edit.Words/>)} className={styles.actionButton}>Mots</button>
+                            <button onClick={() => setContent(<edit.Words token={token}/>)} className={styles.actionButton}>Mots</button>
                         </li>
                         <li className={styles.action}>
-                            <button onClick={() => setContent(<edit.Works/>)} className={styles.actionButton}>Travaux</button>
+                            <button onClick={() => setContent(<edit.Works token={token}/>)} className={styles.actionButton}>Travaux</button>
                         </li>
                         <li className={styles.action}>
                             <button onClick={() => router.push("/")} className={styles.actionButton}>Retour au site</button>

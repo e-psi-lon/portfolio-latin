@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import styles from "@/src/styles/admin.module.css";
-import { useRouter } from "next/router";
-import words from "@/data/words.json";
 import CreateWhat from "@/src/components/dialog/create";
 
 
@@ -12,7 +10,6 @@ import CreateWhat from "@/src/components/dialog/create";
 // Chaque objet contient un type (text, italic, bold) et un texte (le texte à afficher)
 
 const Works = () => {
-    const router = useRouter();
     const [dialog, setDialog] = useState(null);
     return (
         <>

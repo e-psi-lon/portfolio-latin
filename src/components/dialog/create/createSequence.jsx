@@ -3,11 +3,11 @@ import styles from "@/src/styles/dialog.module.css";
 import axios from "axios";
 
 
-const CreateSequence = ({ dialogFunc }) => {
+const CreateSequence = ({ dialogFunc, token }) => {
 
     const resetSequence = () => {
         setSequence("");
-        setClasse("");
+        setYear("");
     };
 
     const createSequence = async (valid) => {
@@ -16,9 +16,10 @@ const CreateSequence = ({ dialogFunc }) => {
             return;
         }
         try {
-            response = await axios.post("/api/create/sequence", { sequence: sequence, classe: classe });
+            const yearId = year === "seconde" ? 1 : year === "premiere" ? 2 : 3;
+            response = await axios.post("/api/create/sequence", { sequence: sequence, year: yearId, token: token });
             if (response.status !== 200) {
-                throw new Error("Erreur lors de la création de la séquence");
+                throw new Error(response.data);
             }
         } catch (error) {
             console.log(error);
@@ -27,17 +28,16 @@ const CreateSequence = ({ dialogFunc }) => {
     };
 
     const [sequence, setSequence] = useState("");
-    const [classe, setClasse] = useState("");
+    const [year, setYear] = useState("");
     return (
         <>
             <div id="createSequence" className={styles.dialogContainer}>
                 <div className={styles.dialogBox}>
                     <h3 className={styles.dialogTitle}>Quelle séquence voulez-vous créer ?</h3>
                     <div className={styles.dialogDropdownContainer}>
-                        <label className={styles.dialogDropdownLabel} htmlFor="classe">Classe</label>
-                        <select className={styles.dialogDropdownInput} id="classe" name="classe" onChange={(event) => setClasse(event.target.value)} value={classe} placeholder="Classe">
+                        <label className={styles.dialogDropdownLabel} htmlFor="year">Classe</label>
+                        <select className={styles.dialogDropdownInput} id="year" name="year" onChange={(event) => setYear(event.target.value)} value={year} placeholder="Classe">
                             <option value="" disabled hidden className="placeholder">Classe</option>
-                            <option value="">Choisissez une classe</option>
                             <option value="seconde">Seconde</option>
                             <option value="première">Première</option>
                             <option value="terminale">Terminale</option>

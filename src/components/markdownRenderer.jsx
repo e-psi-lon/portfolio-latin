@@ -1,6 +1,6 @@
 import React from 'react';
 import MarkdownIt from 'markdown-it';
-import parse, { domToReact } from 'html-react-parser';
+import parse from 'html-react-parser';
 
 const md = new MarkdownIt().disable(['heading', 'list', 'code']);
 

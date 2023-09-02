@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import styles from "@/src/styles/dialog.module.css";
-import words from "@/data/words.json";
 import axios from "axios";
 import MarkdownRenderer from "@/src/components/markdownRenderer.jsx";
 
 
-const CreateWord = ({ dialogFunc }) => {
+const CreateWord = ({ dialogFunc, token }) => {
 
+    let response = null;
     const resetWord = () => {
         setWord("");
         setSequence("");
-        setClasse("");
+        setYear("");
         setDefinition("");
         setSequences([]);
     };
@@ -21,9 +21,9 @@ const CreateWord = ({ dialogFunc }) => {
             return;
         }
         try {
-            response = await axios.post("/api/create/word", { word: word, classe: classe, sequence: sequence, definition: definition });
+            response = await axios.post("/api/create/word", { sequence: sequence, word: word, definition: definition, token: token }); 
             if (response.status !== 200) {
-                throw new Error("Erreur lors de la création du mot");
+                throw new Error(response.data);
             }
         } catch (error) {
             console.log(error);
@@ -31,23 +31,26 @@ const CreateWord = ({ dialogFunc }) => {
         dialogFunc(null);
     };
     
-    const getSequences = (a_classe) => {
-        if (a_classe === null) {
-            return [];
+    const getSequences = async (a_year) => {
+        const yearToAsk = a_year === "seconde" ? "Seconde" : a_year === "premiere" ? "Première" : "Terminale";
+        let sequences_ = [];
+        try {
+            response = await axios.get("/api/get/words/sequence/from_year", { params: { year: yearToAsk } });
+            if (response.status !== 200) {
+                throw new Error("Erreur lors de la récupération des séquences : " + response.data);
+            }
+            response.data.forEach(sequence => {
+                sequences_.push(<option key={sequence.id} value={sequence.id}>{sequence.name}</option>);
+            });
+        } catch (error) {
+            console.log(error);
         }
-        const sequences = [];
-        if (a_classe === "") {
-            return []
-        }
-        for (const sequence of words[a_classe].sequences) {
-            sequences.push(<option value={sequence.id}>{sequence.id}</option>);
-        }
-        return sequences;
+        setSequences(sequences_);
     };
     const [word, setWord] = useState("");
     const [sequences, setSequences] = useState([]);
     const [sequence, setSequence] = useState("");
-    const [classe, setClasse] = useState("");
+    const [year, setYear] = useState("");
     const [definition, setDefinition] = useState("");
     return (
         <>
@@ -56,7 +59,7 @@ const CreateWord = ({ dialogFunc }) => {
                     <h3 className={styles.dialogTitle}>Quel mot voulez-vous créer ?</h3>
                     <div className={styles.dialogTextContainer}>
                         <label className={styles.dialogTextLabel} htmlFor="word">Mot</label>
-                        <input type="text" className={styles.dialogTextInput} id="word" name="word" onChange={(event) => setWord(event.target.value)} placeholder="Mot à ajouter" value={word} />
+                        <input type="text" className={styles.dialogTextInput} id="word" name="word" onChange={(event) => setWord(event.target.value)} placeholder="Mot à ajouter" value={word} autoComplete="off" />
                     </div>
                     <div className={styles.dialogTextAreaContainer}>
                         <label className={styles.dialogTextAreaLabel} htmlFor="definition">Définition (styles supportés : **<b>gras</b>**, _<i>italique</i>_, ~~<s>barré</s>~~, --<u>souligné</u>--, +<sup>exposant</sup>+, -<sub>indice</sub>-)</label>
@@ -66,8 +69,8 @@ const CreateWord = ({ dialogFunc }) => {
                         </div>
                     </div>
                     <div className={styles.dialogDropdownContainer}>
-                        <label className={styles.dialogDropdownLabel} htmlFor="classe">Classe</label>
-                        <select className={styles.dialogDropdownInput} onChange={(event) => {setClasse(event.target.value);setSequence("");setSequences(getSequences(event.target.value))}} id="classe" name="classe" placeholder="Classe" value={classe}>
+                        <label className={styles.dialogDropdownLabel} htmlFor="year">Classe</label>
+                        <select className={styles.dialogDropdownInput} onChange={(event) => {setYear(event.target.value);setSequence("");getSequences(event.target.value)}} id="year" name="year" placeholder="Classe" value={year}>
                             <option value="" disabled hidden className="placeholder">Classe</option>
                             <option value="seconde">Seconde</option>
                             <option value="premiere">Première</option>
@@ -78,7 +81,7 @@ const CreateWord = ({ dialogFunc }) => {
                         <label className={styles.dialogDropdownLabel} htmlFor="sequence">Séquence</label>
                         <select className={styles.dialogDropdownInput} onChange={(event) => setSequence(event.target.value)} id="sequence" name="sequence" placeholder="Séquence" value={sequence}>
                             <option value="" disabled hidden className="placeholder">Séquence</option>
-                            {sequences.map(sequence => sequence)}
+                            {sequences.map((sequence) => sequence)}
                         </select>
                     </div>
                     <div className={styles.dialogValidationContainer}>

@@ -30,7 +30,7 @@ const Index = () => {
                     <p className={styles.p}>Dedans vous trouverez les mots concepts de chaque séquence accompagnés de leur définition respective. De plus les travaux de fin de séquence se trouvent dans leur section respective. Pour finir dans les différentes catégories, vous trouverez aussi les différents travaux fait lors des séquences (Pas encore mis en place)</p>
                     <p className={styles.p}>Pour finir, vous trouverez aussi le compte-rendu de la conférence des Rendez-vous de l'Histoire sur l'École des Chartes en <a className={`${styles.toujours} ${styles.a}`} href="files/ecole_des_chartes.html"> (Pas encore mis en place non plus) cliquant ici</a></p>
                     <p className={styles.p}>Petit bonus, vous pouvez accéder au code source du portfolio en cliquant sur le bouton ci-dessous : </p>
-                    <a className={`${styles.github} ${styles.a}`} href="https://github.com/lilian-maulny/portfolio"> <img src="/github.png"  width={100} height={100} alt="github" /></a>
+                    <a className={`${styles.github} ${styles.a}`} href="https://github.com/e-psi-lon/portfolio-latin"> <img src="/github.png"  width={100} height={100} alt="github" /></a>
                 </main>
             </div>
             <Footer />

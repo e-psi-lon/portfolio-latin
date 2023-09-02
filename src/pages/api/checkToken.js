@@ -1,32 +1,31 @@
 import jwt from 'jsonwebtoken';
-import config from '@/config.js';
-import user from '@/data/user.json';
 import { createHash } from 'crypto';
+import { sql } from '@vercel/postgres'
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
     if (req.method === 'POST') {
-        const token= req.body.token
+        const { token } = req.body
+        if (!token) {
+            return res.status(400).json({ message: 'Missing parameters : token' });
+        }
         try {
-            const decoded = jwt.verify(token, config.SECRET_KEY);
+            const decoded = jwt.verify(token, process.env.SECRET_KEY);
             if (!decoded) {
                 throw new Error('Invalid token');
             }
-            // On peut maintenant utiliser decoded.username et decoded.password pour vérifier l'identité de l'utilisateur
             const hashedDecodedUsername = createHash('sha256').update(decoded.username).digest('hex');
             const hashedDecodedPassword = createHash('sha256').update(decoded.password).digest('hex');
-            if (user.username !== hashedDecodedUsername) {
-                throw new Error('Invalid token');
-            }
-            if (user.password !== hashedDecodedPassword) {
+            const user = (await sql`SELECT * FROM users`).rows[0];
+            if (user.username !== hashedDecodedUsername || user.password !== hashedDecodedPassword) {
                 throw new Error('Invalid token');
             }
             // Authentification réussie
-            res.status(200).json({ message: 'Authentication successful', token: token });
+            return res.status(200).json({ message: 'Authentication successful', token: token });
         } catch (error) {
-            res.status(401).json({ message: 'Authentication failed' });
+            return res.status(401).json({ message: 'Authentication failed' });
         }
     } else {
-        res.status(405).json({ message: 'Method not allowed' });
+        return res.status(405).json({ message: `Method ${req.method} not allowed here` });
     }
 }
 

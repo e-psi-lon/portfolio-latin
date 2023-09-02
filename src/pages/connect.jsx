@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState, useEffect } from "react";
 import styles from "@/src/styles/connect.module.css";
 import Head from "next/head";
 import axios from "axios";
@@ -33,10 +33,37 @@ const Connect = () => {
         }
     };
 
+    // On regarde dans le localStorage si on a un token
+    // Si oui, on redirige vers la page admin
+    const load = () => {
+        useEffect(() => {
+            const token = localStorage.getItem("token");
+            // On check sa validité
+            const check = async () => {
+                try {
+                    const response = await axios.post("/api/checkToken", { token });
+                    if (response.status !== 200) {
+                        throw new Error(response.data);
+                    }   
+                } catch (error) {
+                    console.log(error);
+                    localStorage.removeItem("token");
+                    return false;
+                }
+                return true;
+            };
+            if (token) {
+                if (check()) {
+                    router.push(`/admin?token=${token}`);
+                }
+            }
+        }, []);
+    };
+    load()
     return (
         <>
             <Head>
-                <title>Portfolio – Admin</title>
+                <title>Portfolio – Connect</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <style>{`
                     html {

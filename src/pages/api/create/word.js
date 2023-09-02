@@ -1,44 +1,61 @@
+import { sql } from '@vercel/postgres';
+import jwt from 'jsonwebtoken';
+import { createHash } from 'crypto';
 
-
-export default function handler(req, res) {
+export default async function handler(req, res) {
     if (req.method === 'POST') {
-        const { word, classe, sequence, definition } = req.body;
-        // Charger les informations d'utilisateur stockées (exemple)
-        if(word === null || classe === null || sequence === null || definition === null) {
+        const { sequence, word, definition, token } = req.body;
+        if(!word || !sequence || !definition || !token) {
             let missingParameters = [];
-            if(word === null) {
+            if (!word) {
                 missingParameters.push('word');
             }
-            if(classe === null) {
-                missingParameters.push('classe');
-            }
-            if(sequence === null) {
+            if (!sequence) {
                 missingParameters.push('sequence');
             }
-            if(definition === null) {
+            if (!definition) {
                 missingParameters.push('definition');
             }
-            res.status(400).json({ message: `Missing parameters : ${missingParameters.join(', ')}` });
-            return;
+            if (!token) {
+                missingParameters.push('token');
+            }
+            return res.status(400).json({ message: `Missing parameters : ${missingParameters.join(', ')}` });
         }
-        const storedWords = require("@/data/words.json");
-        const sequenceIndex = storedWords[classe].sequences.findIndex((element) => element.id === sequence);
-        const newWord = {
-            word: word,
-            definition: definition,
+        const tokenValid = await checkToken(token);
+        if(!tokenValid) {
+            return res.status(401).json({ message: 'Invalid token' });
         }
-        storedWords[classe].sequences[sequenceIndex].words.push(newWord);
-        // On update le fichier
-        const fs = require('fs');
+        console.log(`Will try to create word ${word} with definition "${definition}" in sequence ${sequence}`)
         try {
-            fs.writeFile('./data/words.json', JSON.stringify(storedWords), function (err) {
-                if (err) throw err;
-            });
-            res.status(200).json({ message: 'Word created' });
-        } catch (err) {
-            res.status(500).json({ message: 'Error while creating word' });
+            const sqlValue = await sql`INSERT INTO word (sequence_id, word, definition) VALUES (${sequence}, ${word}, ${definition});`;
+            return res.status(200).json({ message: 'Word created' });
+        }
+        catch (err) {
+            return res.status(500).json({ message: `Error while creating word : ${err}` });
         }
     } else {
-        res.status(405).json({ message: 'Method not allowed' });
+        return res.status(405).json({ message: `Method ${req.method} not allowed here` });
     }
 }
+
+
+
+async function checkToken(token) {
+    try {
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+        if (!decoded) {
+            throw new Error('Invalid token');
+        }
+        const hashedDecodedUsername = createHash('sha256').update(decoded.username).digest('hex');
+        const hashedDecodedPassword = createHash('sha256').update(decoded.password).digest('hex');
+        const user = (await sql`SELECT * FROM users`).rows[0];
+        if (user.username !== hashedDecodedUsername || user.password !== hashedDecodedPassword) {
+            throw new Error('Invalid token');
+        }
+        // Authentification réussie
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+

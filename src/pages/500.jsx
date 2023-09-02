@@ -4,7 +4,7 @@ import styles from "../styles/error.module.css";
 import { Footer } from "../components/";
 import { useRouter } from "next/router";
 
-const Page404 = () => {
+const Page500 = () => {
     const rooter = useRouter();
     return (
         <>
@@ -26,8 +26,8 @@ const Page404 = () => {
                     `}</style>
             </Head>
             <div className={styles.content}>
-                <h1 className={styles.title_error}>404</h1>
-                <p className={styles.subtitle_error}>Cette page n'existe pas</p>
+                <h1 className={styles.title_error}>500</h1>
+                <p className={styles.subtitle_error}>Une erreur est survenue</p>
                 <div className={styles.center}>
                     <button onClick={() => rooter.push("/")} className={styles.button_go_back}>Revenir en lieu sûr</button>
                 </div>
