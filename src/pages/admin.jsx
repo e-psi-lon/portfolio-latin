@@ -32,17 +32,13 @@ const Admin = () => {
         const start = async (router) => {
             if (!router.query.token) {
                 const token = localStorage.getItem("token");
-                if (token) {
-                    router.push(`/admin?token=${token}`);
-                }
-                else {
-                    router.push("/connect");
-                }
+                if (token) router.push(`/admin?token=${token}`);
+                else router.push("/connect");
                 return;
             }
             const token = router.query.token;
             const tokenIsValid = await checkToken(token);
-            if (!tokenIsValid) {
+            if (!await checkToken(router.query.token)) {
                 router.push("/connect");
                 return;
             }
