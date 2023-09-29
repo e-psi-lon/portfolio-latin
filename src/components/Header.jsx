@@ -16,7 +16,7 @@ const navbar = [
         link: "/int-sequence"
     },
     {
-        name: "Travaux de Fin de Séquence",
+        name: "Travaux de fin de Séquence",
         link: "/sequence"
     }
 ];
