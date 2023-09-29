@@ -10,7 +10,7 @@ const MotConcept = () => {
     const [content, setContent] = useState(
         <>
             <p className={styles.p}>
-                Les mots concepts apparaîtront ici quand vous cliquerai sur l'un des boutons ci-dessus.
+                Les mots concepts apparaîtront ici quand vous cliquerez sur l'un des boutons ci-dessus.
             </p>
         </>
     );
@@ -80,7 +80,7 @@ const MotConcept = () => {
             </Head>
             <div className={styles.content}>
                 <Header />
-                <h2 className={styles.subtitle}>Vous trouverez ci-dessous la liste de tout les mots concepts de chaque séquence accompagnés de leur définition</h2>
+                <h2 className={styles.subtitle}>Vous trouverez ci-dessous la liste de tous les mots concepts de chaque séquence, accompagnés de leur définition</h2>
                 <main>
                     <ul className={styles.niveau}>
                         <li className={styles.li}><button key="1" className={`${styles.button} ${styles.year}`} onClick={() => changeContent("seconde")}>Seconde</button></li>
