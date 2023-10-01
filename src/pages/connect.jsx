@@ -13,7 +13,6 @@ const Connect = () => {
     const router = useRouter();
 
     const handleLogin = async () => {
-        // Prevent default behavior of form submission without using event cause it's deprecated
         event.preventDefault();
         setErrorMessage("");
         const username = document.getElementById("username").value;
@@ -26,24 +25,22 @@ const Connect = () => {
             }
             const token = response.data.token;
             localStorage.setItem("token", token);
-            router.push(`/admin?token=${token}`);
+            await router.push(`/admin?token=${token}`);
             
         } catch (error) {
             setErrorMessage("Nom d'utilisateur ou mot de passe incorrect");
         }
     };
 
-    // On regarde dans le localStorage si on a un token
-    // Si oui, on redirige vers la page admin
     const load = () => {
         useEffect(() => {
             const token = localStorage.getItem("token");
-            // On check sa validité
             const check = async () => {
                 try {
                     const response = await axios.post("/api/checkToken", { token });
                     if (response.status !== 200) {
-                        throw new Error(response.data);
+                        localStorage.removeItem("token");
+                        return false;
                     }   
                 } catch (error) {
                     console.log(error);
@@ -53,8 +50,9 @@ const Connect = () => {
                 return true;
             };
             if (token) {
-                if (check()) {
-                    router.push(`/admin?token=${token}`);
+                const checked = check().then((result) => result);
+                if (checked) {
+                    router.push(`/admin?token=${token}`).then(r => r);
                 }
             }
         }, []);

@@ -23,7 +23,7 @@ const CreateWord = ({ dialogFunc, token }) => {
         try {
             response = await axios.post("/api/create/word", { sequence: sequence, word: word, definition: definition, token: token }); 
             if (response.status !== 200) {
-                throw new Error(response.data);
+                console.log(response.data);
             }
         } catch (error) {
             console.log(error);
@@ -37,7 +37,7 @@ const CreateWord = ({ dialogFunc, token }) => {
         try {
             response = await axios.get("/api/get/words/sequence/from_year", { params: { year: yearToAsk } });
             if (response.status !== 200) {
-                throw new Error("Erreur lors de la récupération des séquences : " + response.data);
+                return console.log(response.data);
             }
             response.data.forEach(sequence => {
                 sequences_.push(<option key={sequence.id} value={sequence.id}>{sequence.name}</option>);
@@ -70,7 +70,7 @@ const CreateWord = ({ dialogFunc, token }) => {
                     </div>
                     <div className={styles.dialogDropdownContainer}>
                         <label className={styles.dialogDropdownLabel} htmlFor="year">Classe</label>
-                        <select className={styles.dialogDropdownInput} onChange={(event) => {setYear(event.target.value);setSequence("");getSequences(event.target.value)}} id="year" name="year" placeholder="Classe" value={year}>
+                        <select className={styles.dialogDropdownInput} onChange={(event) => {setYear(event.target.value);setSequence("");getSequences(event.target.value).then(r => r)}} id="year" name="year" placeholder="Classe" value={year}>
                             <option value="" disabled hidden className="placeholder">Classe</option>
                             <option value="seconde">Seconde</option>
                             <option value="premiere">Première</option>

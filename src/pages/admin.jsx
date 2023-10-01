@@ -8,10 +8,8 @@ import * as edit from "@/src/components/edit";
 const checkToken = async (token) => {
     try {
         const response = await axios.post("/api/checkToken", { token });
-        if (response.status !== 200) {
-            return false;
-        }
-        return true;
+        return response.status === 200;
+
     } catch (error) {
         return false;
     }
@@ -22,7 +20,7 @@ const checkToken = async (token) => {
 const Admin = () => {
     const router = useRouter();
     const [content, setContent] = useState(null);
-    const [basecontent, setBaseContent] = useState(
+    const [baseContent, setBaseContent] = useState(
         <>
             <h1 className={styles.subtitle}>Chargement...</h1>
         </>
@@ -38,7 +36,7 @@ const Admin = () => {
             }
             const token = router.query.token;
             const tokenIsValid = await checkToken(token);
-            if (!await checkToken(router.query.token)) {
+            if (!tokenIsValid) {
                 router.push("/connect");
                 return;
             }
@@ -62,7 +60,8 @@ const Admin = () => {
                 </>
             );
         };
-        start(router);
+        start(router).then(r => r);
+
     }, [router]);
     return (
         <>
@@ -86,7 +85,7 @@ const Admin = () => {
             <script>
             </script>
             <div className={styles.content}>
-                {basecontent}
+                {baseContent}
                 {content}
             </div>
         </>

@@ -1,20 +1,27 @@
 import React, { useState } from "react";
 import * as create from "@/src/components/dialog/create";
+import * as edit from "@/src/components/dialog/edit";
 import styles from "@/src/styles/admin.module.css";
 
 const Words = ({ token }) => {
     const handleDialogCreateClose = (selectedOption) => {
         setDialog(null);
-
-        // Ici, vous pouvez gérer la suite en fonction de l'option sélectionnée
         if (selectedOption === "mot") {
-            // On la truc de dialog de création de mot
             setDialog(<create.CreateWord dialogFunc={setDialog} token={token}/>);
         } else if (selectedOption === "sequence") {
-            // On la truc de dialog de création de séquence
             setDialog(<create.CreateSequence dialogFunc={setDialog} token={token}/>);
         }
     };
+
+    const handleDialogEditClose = (selectedOption) => {
+        setDialog(null);
+        if (selectedOption === "mot") {
+            setDialog(<edit.EditWord dialogFunc={setDialog} token={token}/>);
+        } else if (selectedOption === "sequence") {
+            setDialog(<edit.EditSequence dialogFunc={setDialog} token={token}/>);
+        }
+    };
+
     const [dialog, setDialog] = useState(null);
     return (
         <>
@@ -22,13 +29,12 @@ const Words = ({ token }) => {
                 {dialog}
                 <ul className={styles.adminChoices}>
                     <li className={styles.adminChoice}><button onClick={() => setDialog(<create.CreateWhat onClose={handleDialogCreateClose} />)} className={styles.adminChoiceButton}>Création</button></li>
-                    <li className={styles.adminChoice}><button>Modification</button></li>
+                    <li className={styles.adminChoice}><button onClick={() => setDialog(<edit.EditWhat onClose={handleDialogEditClose} />)} className={styles.adminChoiceButton}>Modification</button></li>
                     <li className={styles.adminChoice}><button>Suppression</button></li>
                 </ul>
             </div>
         </>
     );
-
 }
 
 export default Words;

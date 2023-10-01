@@ -27,7 +27,7 @@ export default async function handler(req, res) {
         }
         console.log(`Will try to create word ${word} with definition "${definition}" in sequence ${sequence}`)
         try {
-            const sqlValue = await sql`INSERT INTO word (sequence_id, word, definition) VALUES (${sequence}, ${word}, ${definition});`;
+            await sql`INSERT INTO word (sequence_id, word, definition) VALUES (${sequence}, ${word}, ${definition});`;
             return res.status(200).json({ message: 'Word created' });
         }
         catch (err) {
@@ -44,16 +44,13 @@ async function checkToken(token) {
     try {
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
         if (!decoded) {
-            throw new Error('Invalid token');
+            return false;
         }
         const hashedDecodedUsername = createHash('sha256').update(decoded.username).digest('hex');
         const hashedDecodedPassword = createHash('sha256').update(decoded.password).digest('hex');
         const user = (await sql`SELECT * FROM users`).rows[0];
-        if (user.username !== hashedDecodedUsername || user.password !== hashedDecodedPassword) {
-            throw new Error('Invalid token');
-        }
-        // Authentification réussie
-        return true;
+        return !(user.username !== hashedDecodedUsername || user.password !== hashedDecodedPassword);
+
     } catch (error) {
         return false;
     }

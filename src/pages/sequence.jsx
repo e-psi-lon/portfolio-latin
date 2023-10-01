@@ -55,9 +55,8 @@ const pathToComponent = {
 
 const Sequence = () => {
     const router = useRouter();
-    let niveau = router.query.niveau
-    let sequence = router.asPath.split("#")[1];
-    if (niveau == undefined || niveau == "" || niveau == null || sequence == undefined || sequence == "" || sequence == null || !["seconde", "premiere", "terminale"].includes(niveau) || isNaN(sequence) || sequence < 1 || sequence > 4) {
+    const { niveau, sequence } = router.query;
+    if (niveau === undefined || niveau === "" || niveau == null || sequence === undefined || sequence === "" || sequence == null || !["seconde", "premiere", "terminale"].includes(niveau) || sequence < 1 || sequence > 4) {
         return (
             <>
                 <Head>
@@ -81,7 +80,7 @@ const Sequence = () => {
                     <Header />
                     <main>
                         <h1>Travaux de Séquence</h1>
-                        {Object.values(pathToComponent).filter((niveau) => niveau["id"] != "base").map((niveau, index1) => {
+                        {Object.values(pathToComponent).filter((niveau) => niveau["id"] !== "base").map((niveau, index1) => {
                             return (
                                 <ul>
                                     <li key={index1}>

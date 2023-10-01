@@ -6,7 +6,6 @@ import MarkdownRenderer from "../components/markdownRenderer";
 import axios from "axios";
 
 const MotConcept = () => {
-    // On actualise words au passage
     const [content, setContent] = useState(
         <>
             <p className={styles.p}>

@@ -24,7 +24,7 @@ const navbar = [
 
 const Header = () => {
     const router = useRouter();
-    const page = (
+    return (
         <>
             <h1 className={styles.title}>Portfolio</h1>
             <header className={styles.header}>
@@ -44,8 +44,6 @@ const Header = () => {
             </header>
         </>
     );
-    
-    return page;
 };
 
 export default Header;
