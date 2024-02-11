@@ -1,7 +1,17 @@
 import { sql } from "@vercel/postgres";
+import Cors from 'cors'
+import initMiddleware from '../../../../lib/init-middleware'
+
+const cors = initMiddleware(
+    Cors({
+        methods: ['GET'],
+    })
+)
+
 
 
 export default async function handler(req, res) {
+    await cors(req, res)
     if (req.method === "GET") {
         const { sequence } = req.query;
         if (!sequence) {
