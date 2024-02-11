@@ -1,6 +1,6 @@
 import { sql } from '@vercel/postgres';
 import Cors from 'cors';
-import initMiddleware from '../../../../lib/init-middleware';
+import initMiddleware from '../../../lib/init-middleware';
 
 const cors = initMiddleware(
     Cors({
