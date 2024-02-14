@@ -1,8 +1,17 @@
 import { createHash } from 'crypto';
 import jwt from 'jsonwebtoken';
 import { sql } from '@vercel/postgres'
+import Cors from 'cors'
+import initMiddleware from './lib/init-middleware'
+
+const cors = initMiddleware(
+    Cors({
+        methods: ['POST'],
+    })
+)
 
 export default async function handler(req, res) {
+    await cors(req, res)
     if (req.method === 'POST') {
         const { username, password } = req.body;
         const sqlValue = await sql`SELECT * FROM users;`;

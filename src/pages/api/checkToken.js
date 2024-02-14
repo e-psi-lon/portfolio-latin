@@ -1,8 +1,17 @@
 import jwt from 'jsonwebtoken';
 import { createHash } from 'crypto';
 import { sql } from '@vercel/postgres'
+import Cors from 'cors'
+import initMiddleware from './lib/init-middleware'
+
+const cors = initMiddleware(
+    Cors({
+        methods: ['POST'],
+    })
+)
 
 export default async function handler(req, res) {
+    await cors(req, res)
     if (req.method === 'POST') {
         const { token } = req.body
         if (!token) return res.status(400).json({ message: 'Missing parameters : token' });

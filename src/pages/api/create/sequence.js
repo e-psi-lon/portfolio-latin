@@ -2,8 +2,17 @@ import { sql } from '@vercel/postgres';
 import {createHash} from "crypto";
 import jwt from "jsonwebtoken";
 import axios from "axios";
+import Cors from 'cors'
+import initMiddleware from '../lib/init-middleware'
+
+const cors = initMiddleware(
+    Cors({
+        methods: ['POST'],
+    })
+)
 
 export default async function handler(req, res) {
+    await cors(req, res)
     if (req.method === 'POST') {
         const { sequence, year, token } = req.body;
         if(!year || !sequence || !token) {

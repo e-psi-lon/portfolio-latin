@@ -52,7 +52,7 @@ const Connect = () => {
             if (token) {
                 const checked = check().then((result) => result);
                 if (checked) {
-                    router.push(`/admin?token=${token}`).then(r => r);
+                    router.push(`/admin`).then(r => r);
                 }
             }
         }, []);
