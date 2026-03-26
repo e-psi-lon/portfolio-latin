@@ -17,11 +17,12 @@ const EditSequence = ({ dialogFunc }) => {
         }
         try {
             response = await axios.post("/api/create/sequence", { sequence: sequence, year: year, token: token });
-            if (response.status !== 200) {
-                console.log("Erreur lors de la création de la séquence");
+            if (response.status === 200) {
+                resetSequence();
             }
         } catch (error) {
-            console.log(error);
+            console.error("Error updating sequence:", error);
+            alert("Erreur lors de la mise à jour de la séquence. Veuillez réessayer.");
         }
         dialogFunc(null);
     };

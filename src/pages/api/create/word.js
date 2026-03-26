@@ -1,6 +1,5 @@
-import { sql } from '@vercel/postgres';
+import { getDb } from '../lib/db';
 import jwt from 'jsonwebtoken';
-import { createHash } from 'crypto';
 import Cors from 'cors'
 import initMiddleware from '../lib/init-middleware'
 
@@ -34,12 +33,13 @@ export default async function handler(req, res) {
         if(!tokenValid) {
             return res.status(401).json({ message: 'Invalid token' });
         }
-        console.log(`Will try to create word ${word} with definition "${definition}" in sequence ${sequence}`)
         try {
-            await sql`INSERT INTO word (sequence_id, word, definition) VALUES (${sequence}, ${word}, ${definition});`;
+            const sql = getDb();
+            await sql('INSERT INTO word (sequence_id, word, definition) VALUES ($1, $2, $3);', [sequence, word, definition]);
             return res.status(200).json({ message: 'Word created' });
         }
         catch (err) {
+            console.error('Error creating word:', err);
             return res.status(500).json({ message: `Error while creating word : ${err}` });
         }
     } else {
@@ -52,15 +52,15 @@ export default async function handler(req, res) {
 async function checkToken(token) {
     try {
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
-        if (!decoded) {
+        if (!decoded || !decoded.username) {
             return false;
         }
-        const hashedDecodedUsername = createHash('sha256').update(decoded.username).digest('hex');
-        const hashedDecodedPassword = createHash('sha256').update(decoded.password).digest('hex');
-        const user = (await sql`SELECT * FROM users`).rows[0];
-        return !(user.username !== hashedDecodedUsername || user.password !== hashedDecodedPassword);
+        const sql = getDb();
+        const users = await sql('SELECT * FROM users WHERE username = $1', [decoded.username]);
+        return users && users.length > 0;
 
     } catch (error) {
+        console.error('Token verification error:', error);
         return false;
     }
 }

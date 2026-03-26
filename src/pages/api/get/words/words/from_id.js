@@ -1,4 +1,4 @@
-import { sql } from '@vercel/postgres';
+import { getDb } from '../../../lib/db';
 import Cors from 'cors';
 import initMiddleware from '../../../lib/init-middleware';
 
@@ -16,7 +16,9 @@ export default async function handler(req, res) {
             return res.status(400).send("Missing parameter 'id'");
         }
         try {
-            const word = (await sql`SELECT * FROM word WHERE id = ${id}`).rows[0];
+            const sql = getDb();
+            const words = await sql('SELECT * FROM word WHERE id = $1', [id]);
+            const word = words[0];
             return res.status(200).json(word);
         } catch (error) {
             console.error(error);

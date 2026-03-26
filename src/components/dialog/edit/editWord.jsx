@@ -20,11 +20,12 @@ const EditWord = ({ dialogFunc, token }) => {
         }
         try {
             response = await axios.post("/api/edit/word", { id: id, newWord: newWord, newDefinition: newDefinition, newSequence: newSequence, token: token });
-            if (response.status !== 200) {
-                console.log("Erreur lors de la mise à jour du mot");
+            if (response.status === 200) {
+                resetWord();
             }
         } catch (error) {
-            console.log(error);
+            console.error("Error updating word:", error);
+            alert("Erreur lors de la mise à jour du mot. Veuillez réessayer.");
         }
         dialogFunc(null);
     };
@@ -34,15 +35,12 @@ const EditWord = ({ dialogFunc, token }) => {
         let words_ = [];
         try {
             response = await axios.get("/api/get/words/words/from_sequence", { params: { sequence: a_sequence } });
-            if (response.status !== 200) {
-                console.log("Erreur lors de la récupération des mots : " + response.data);
-            } else {
             response.data.forEach(word => {
                 words_.push(<option key={word.id} value={word.id}>{word.word}</option>);
             });
-            }
         } catch (error) {
-            console.log(error);
+            console.error("Error loading words:", error);
+            words_.push(<option key="error" value="" disabled>Erreur lors du chargement</option>);
         }
         setWords(words_);
     };
@@ -52,14 +50,12 @@ const EditWord = ({ dialogFunc, token }) => {
         let sequences_ = [];
         try {
             response = await axios.get("/api/get/words/sequence/from_year", { params: { year: yearToAsk } });
-            if (response.status !== 200) console.log("Erreur lors de la récupération des séquences : " + response.data);
-            else {
             response.data.forEach(sequence => {
                 sequences_.push(<option key={sequence.id} value={sequence.id}>{sequence.name}</option>);
             });
-            }
         } catch (error) {
-            console.log(error);
+            console.error("Error loading sequences:", error);
+            sequences_.push(<option key="error" value="" disabled>Erreur lors du chargement</option>);
         }
         setSequences(sequences_);
     };

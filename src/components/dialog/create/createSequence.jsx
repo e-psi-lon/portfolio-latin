@@ -18,11 +18,12 @@ const CreateSequence = ({ dialogFunc, token }) => {
         try {
             const yearId = year === "seconde" ? 1 : year === "premiere" ? 2 : 3;
             const response = await axios.post("/api/create/sequence", { sequence: sequence, year: yearId, token: token });
-            if (response.status !== 200) {
-                console.log(response.data)
+            if (response.status === 200) {
+                resetSequence();
             }
         } catch (error) {
-            console.log(error);
+            console.error("Error creating sequence:", error);
+            alert("Erreur lors de la création de la séquence. Veuillez réessayer.");
         }
         dialogFunc(null);
     };

@@ -1,4 +1,4 @@
-import { sql } from "@vercel/postgres";
+import { getDb } from '../../../lib/db';
 import Cors from 'cors'
 import initMiddleware from '../../../lib/init-middleware'
 
@@ -16,7 +16,8 @@ export default async function handler(req, res) {
             return res.status(400).send("Missing parameter 'year'");
         }
         try {
-            const sequences = (await sql`SELECT sequence.* FROM sequence JOIN year ON sequence.year_id = year.id WHERE year.name = ${year}`).rows;
+            const sql = getDb();
+            const sequences = await sql('SELECT sequence.* FROM sequence JOIN year ON sequence.year_id = year.id WHERE year.name = $1', [year]);
             return res.status(200).json(sequences);
         } catch (error) {
             console.error(error);

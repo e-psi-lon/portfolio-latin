@@ -1,5 +1,4 @@
-import { sql } from '@vercel/postgres';
-import {createHash} from "crypto";
+import { getDb } from '../lib/db';
 import jwt from "jsonwebtoken";
 import Cors from 'cors'
 import initMiddleware from '../lib/init-middleware'
@@ -32,10 +31,12 @@ export default async function handler(req, res) {
             return res.status(401).json({ message: 'Invalid token' });
         }
         try {
-            await sql`UPDATE sequence SET name = ${newName} WHERE id = ${id};`;
-            return res.status(200).json({ message: 'Word created' });
+            const sql = getDb();
+            await sql('UPDATE sequence SET name = $1 WHERE id = $2;', [newName, id]);
+            return res.status(200).json({ message: 'Sequence updated' });
         }
         catch (err) {
+            console.error('Error updating sequence:', err);
             return res.status(500).json({ message: `Error while updating sequence : ${err}` });
         }
     } else {
@@ -48,15 +49,15 @@ export default async function handler(req, res) {
 async function checkToken(token) {
     try {
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
-        if (!decoded) {
+        if (!decoded || !decoded.username) {
             return false;
         }
-        const hashedDecodedUsername = createHash('sha256').update(decoded.username).digest('hex');
-        const hashedDecodedPassword = createHash('sha256').update(decoded.password).digest('hex');
-        const user = (await sql`SELECT * FROM users`).rows[0];
-        return !(user.username !== hashedDecodedUsername || user.password !== hashedDecodedPassword);
+        const sql = getDb();
+        const users = await sql('SELECT * FROM users WHERE username = $1', [decoded.username]);
+        return users && users.length > 0;
 
     } catch (error) {
+        console.error('Token verification error:', error);
         return false;
     }
 }

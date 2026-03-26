@@ -22,11 +22,12 @@ const CreateWord = ({ dialogFunc, token }) => {
         }
         try {
             response = await axios.post("/api/create/word", { sequence: sequence, word: word, definition: definition, token: token }); 
-            if (response.status !== 200) {
-                console.log(response.data);
+            if (response.status === 200) {
+                resetWord();
             }
         } catch (error) {
-            console.log(error);
+            console.error("Error creating word:", error);
+            alert("Erreur lors de la création du mot. Veuillez réessayer.");
         }
         dialogFunc(null);
     };
@@ -36,14 +37,12 @@ const CreateWord = ({ dialogFunc, token }) => {
         let sequences_ = [];
         try {
             response = await axios.get("/api/get/words/sequence/from_year", { params: { year: yearToAsk } });
-            if (response.status !== 200) {
-                return console.log(response.data);
-            }
             response.data.forEach(sequence => {
                 sequences_.push(<option key={sequence.id} value={sequence.id}>{sequence.name}</option>);
             });
         } catch (error) {
-            console.log(error);
+            console.error("Error loading sequences:", error);
+            sequences_.push(<option key="error" value="" disabled>Erreur lors du chargement</option>);
         }
         setSequences(sequences_);
     };
